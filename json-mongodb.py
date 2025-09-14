@@ -10,8 +10,8 @@ MONGODB_URI = "mongodb+srv://admin:sanjeevni@cluster0.3haxn5j.mongodb.net/?retry
 client = pymongo.MongoClient(MONGODB_URI)
 
 # Database = hardware_data, Collection = sensor_data
-db = client["hardware_data"]
-collection = db["sensor_data"]
+db = client["sanjeevni"]
+collection = db["hardware_data"]
 
 print("Connected to MongoDB. Listening Arduino data...")
 
