@@ -1,22 +1,26 @@
 import serial
 import pymongo
 
-# Serial setup
-ser = serial.Serial('COM3', 9600)  # Change COM port as per your Arduino
+# Apna Arduino COM port check karke neeche change kar (abhi COM3 hai)
+ser = serial.Serial('COM3', 9600, timeout=1)
 ser.flush()
 
-# MongoDB setup
-client = pymongo.MongoClient("mongodb+srv://<username>:<password>@cluster0.mongodb.net/")
-db = client["water_quality"]
+# MongoDB Atlas Connection
+MONGODB_URI = "mongodb+srv://admin:sanjeevni@cluster0.3haxn5j.mongodb.net/?retryWrites=true&w=majority"
+client = pymongo.MongoClient(MONGODB_URI)
+
+# Database = hardware_data, Collection = sensor_data
+db = client["hardware_data"]
 collection = db["sensor_data"]
 
-print("Listening to Arduino...")
+print("Connected to MongoDB. Listening Arduino data...")
 
 while True:
     try:
         if ser.in_waiting > 0:
             line = ser.readline().decode('utf-8').strip()
             data = line.split(",")
+            
             if len(data) == 5:
                 record = {
                     "tds": float(data[0]),
